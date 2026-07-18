@@ -1,0 +1,705 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@400;500;700&display=swap");
+
+@font-face {
+  font-family: "Pricedown";
+  src: url("/fonts/pricedown.otf") format("opentype");
+  font-display: swap;
+}
+
+:root {
+  --navy: #0b0e23;
+  --navy-deep: #050714;
+  --magenta: #ff2e92;
+  --cyan: #00e5d8;
+  --orange: #ff6b35;
+  --paper: #f3efe4;
+  --purple: #6b2fa8;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--navy-deep);
+  color: var(--paper);
+  font-family: "Space Grotesk", sans-serif;
+  overflow-x: hidden;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.page-protected body {
+  overflow: hidden;
+}
+
+.page-protected #root {
+  filter: blur(18px) brightness(0.15);
+  pointer-events: none;
+}
+
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.03) 0,
+    rgba(255, 255, 255, 0.03) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: overlay;
+  opacity: 0.5;
+}
+
+.glitch-line {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 49;
+  height: 2px;
+  pointer-events: none;
+  background: rgba(0, 229, 216, 0.15);
+  animation: scan 7s linear infinite;
+}
+
+@keyframes scan {
+  0% {
+    top: -2px;
+  }
+
+  100% {
+    top: 100%;
+  }
+}
+
+h1,
+h2,
+h3,
+.display {
+  font-family: "Pricedown", "Arial Black", sans-serif;
+  letter-spacing: -0.01em;
+  line-height: 0.88;
+  text-transform: uppercase;
+}
+
+.eyebrow,
+.q-eyebrow,
+.scroll-hint,
+.count-box .lbl,
+.offer-card .tag,
+.price small,
+.fine-print,
+.total-line {
+  font-family: "JetBrains Mono", monospace;
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+.hero,
+.quiz-section,
+.result-section {
+  min-height: 100svh;
+  position: relative;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding:
+    max(2rem, env(safe-area-inset-top))
+    clamp(1rem, 5vw, 4rem)
+    max(2rem, env(safe-area-inset-bottom));
+  text-align: center;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--navy-deep);
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(180deg, rgba(18, 4, 22, 0.6) 0%, rgba(3, 7, 20, 0.78) 100%),
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 52%),
+    url("/2.png") center center / cover no-repeat;
+  transform: scale(1.03);
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(65% 50% at 50% 30%, rgba(24, 7, 28, 0.16) 0%, rgba(24, 7, 28, 0.48) 68%, rgba(5, 7, 20, 0.72) 100%),
+    linear-gradient(180deg, rgba(255, 46, 146, 0.12) 0%, rgba(0, 229, 216, 0.08) 100%);
+  backdrop-filter: blur(3px) saturate(0.9);
+}
+
+.hero .eyebrow {
+  margin-bottom: 1.2rem;
+  text-shadow: 0 0 18px rgba(0, 229, 216, 0.4);
+}
+
+.hero h1 {
+  font-size: clamp(2.4rem, 9vw, 5.2rem);
+  color: #ffffff;
+  filter: drop-shadow(0 10px 32px rgba(0, 0, 0, 0.42));
+  letter-spacing: 0.03em;
+}
+
+.hero .sub {
+  max-width: 36rem;
+  margin: 1.4rem auto 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: clamp(0.98rem, 1.8vw, 1.1rem);
+  line-height: 1.5;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.45);
+}
+
+.countdown {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.85rem;
+  margin-top: 3rem;
+  width: min(100%, 32rem);
+}
+
+.count-box {
+  flex: 1 1 calc(50% - 0.5rem);
+  min-width: 0;
+  padding: 0.9rem 1.1rem;
+  border: 1px solid rgba(0, 229, 216, 0.35);
+  border-radius: 4px;
+  background: rgba(7, 11, 24, 0.34);
+  backdrop-filter: blur(10px);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.count-box .num {
+  color: var(--cyan);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.count-box .lbl {
+  color: rgba(243, 239, 228, 0.55);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.cta-btn {
+  display: inline-block;
+  margin-top: 3rem;
+  padding: 1rem 2.2rem;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  background: var(--magenta);
+  color: var(--navy-deep);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 0 0 rgba(255, 46, 146, 0);
+}
+
+.cta-btn:focus-visible,
+.option:focus-visible,
+.bump:focus-within {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+}
+
+.cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255, 46, 146, 0.35);
+}
+
+.scroll-hint {
+  margin-top: 2.4rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
+}
+
+.quiz-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding:
+    max(2rem, env(safe-area-inset-top))
+    clamp(1rem, 5vw, 4rem)
+    max(2rem, env(safe-area-inset-bottom));
+  background: var(--navy);
+}
+
+.progress-wrap {
+  width: 100%;
+  max-width: 36rem;
+  height: 4px;
+  margin-bottom: 2.4rem;
+  overflow: hidden;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--magenta), var(--cyan));
+  transition: width 0.3s ease;
+}
+
+.quiz-card {
+  width: 100%;
+  max-width: 36rem;
+  text-align: left;
+}
+
+.q-eyebrow {
+  display: block;
+  margin-bottom: 0.8rem;
+  color: var(--orange);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+}
+
+.quiz-card h2 {
+  margin-bottom: 2rem;
+  font-size: clamp(1.5rem, 5vw, 2.1rem);
+  line-height: 0.92;
+  letter-spacing: 0.02em;
+}
+
+.option {
+  display: block;
+  width: 100%;
+  margin-bottom: 0.8rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--paper);
+  text-align: left;
+  line-height: 1.45;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.option:hover {
+  border-color: var(--cyan);
+  background: rgba(0, 229, 216, 0.06);
+}
+
+.result-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding:
+    max(2rem, env(safe-area-inset-top))
+    clamp(1rem, 5vw, 4rem)
+    max(2rem, env(safe-area-inset-bottom));
+  text-align: center;
+  background:
+    radial-gradient(90% 60% at 50% 0%, rgba(107, 47, 168, 0.4), transparent 60%),
+    var(--navy-deep);
+}
+
+.result-section .eyebrow {
+  color: var(--orange);
+}
+
+.result-title {
+  margin: 1rem 0 1.2rem;
+  color: var(--paper);
+  font-size: clamp(2rem, 7vw, 3.2rem);
+  line-height: 0.9;
+  letter-spacing: 0.025em;
+}
+
+.result-title span {
+  color: var(--magenta);
+}
+
+.result-desc {
+  max-width: 34rem;
+  margin-bottom: 2.4rem;
+  color: rgba(243, 239, 228, 0.75);
+  font-size: clamp(0.98rem, 1.8vw, 1.05rem);
+  line-height: 1.55;
+}
+
+.offer-card {
+  width: 100%;
+  max-width: 29rem;
+  margin-top: 1rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border: 1px solid rgba(255, 46, 146, 0.4);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px);
+}
+
+.offer-card .tag {
+  display: inline-block;
+  margin-bottom: 1rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 2px;
+  background: var(--magenta);
+  color: var(--navy-deep);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+}
+
+.price {
+  color: var(--cyan);
+  font-family: "Pricedown", "Arial Black", sans-serif;
+  font-size: 2.6rem;
+  line-height: 0.9;
+  letter-spacing: 0.04em;
+}
+
+.price small {
+  color: rgba(243, 239, 228, 0.6);
+  font-size: 1rem;
+}
+
+.benefits {
+  margin: 1.6rem 0;
+  list-style: none;
+  text-align: left;
+}
+
+.benefits li {
+  display: flex;
+  gap: 0.6rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  color: rgba(243, 239, 228, 0.85);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.benefits li::before {
+  content: "→";
+  color: var(--cyan);
+}
+
+.bump {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 1rem;
+  border: 1px dashed rgba(0, 229, 216, 0.4);
+  border-radius: 6px;
+  background: rgba(0, 229, 216, 0.05);
+  cursor: pointer;
+  text-align: left;
+}
+
+.bump input {
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-top: 0.2rem;
+  flex-shrink: 0;
+  accent-color: var(--cyan);
+}
+
+.bump-title {
+  color: var(--paper);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.bump-desc {
+  margin-top: 0.2rem;
+  color: rgba(243, 239, 228, 0.65);
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.bump-price {
+  margin-left: auto;
+  color: var(--cyan);
+  white-space: nowrap;
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 600;
+}
+
+.total-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-top: 1.2rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(243, 239, 228, 0.6);
+  font-size: 0.8rem;
+}
+
+.total-value {
+  color: var(--paper);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.checkout-btn {
+  width: 100%;
+  margin-top: 1.2rem;
+  font-family: "Pricedown", "Arial Black", sans-serif;
+  font-size: clamp(1.05rem, 2vw, 1.2rem);
+  letter-spacing: 0.06em;
+}
+
+.fine-print {
+  max-width: 26rem;
+  margin-top: 2rem;
+  color: rgba(243, 239, 228, 0.35);
+  font-size: 0.68rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 479px) {
+  .hero,
+  .quiz-section,
+  .result-section {
+    justify-content: flex-start;
+  }
+
+  .hero {
+    padding-top: max(1.5rem, env(safe-area-inset-top));
+  }
+
+  .hero h1 {
+    font-size: clamp(2.1rem, 10vw, 3rem);
+  }
+
+  .hero .sub {
+    margin-top: 1rem;
+  }
+
+  .countdown {
+    margin-top: 2rem;
+  }
+
+  .count-box {
+    padding: 0.85rem 0.5rem;
+  }
+
+  .count-box .num {
+    font-size: 1.45rem;
+  }
+
+  .cta-btn {
+    width: 100%;
+    padding-inline: 1rem;
+    font-size: 0.84rem;
+  }
+
+  .quiz-card h2,
+  .result-title {
+    line-height: 1;
+  }
+
+  .option {
+    padding: 0.95rem 0.95rem;
+    font-size: 0.95rem;
+  }
+
+  .offer-card {
+    max-width: 100%;
+  }
+
+  .price {
+    font-size: 2.2rem;
+  }
+
+  .bump {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .bump-price {
+    width: 100%;
+    margin-left: 0;
+    text-align: right;
+  }
+
+  .total-line {
+    gap: 0.75rem;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .total-value {
+    font-size: 1rem;
+  }
+
+  .fine-print {
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 480px) and (max-width: 767px) {
+  .hero,
+  .quiz-section,
+  .result-section {
+    padding-inline: clamp(1.25rem, 6vw, 2rem);
+  }
+
+  .cta-btn {
+    width: min(100%, 22rem);
+  }
+
+  .offer-card,
+  .fine-print {
+    max-width: 30rem;
+  }
+}
+
+@media (min-width: 640px) {
+  .countdown {
+    gap: 1.4rem;
+    width: auto;
+  }
+
+  .count-box {
+    flex: 0 1 auto;
+    min-width: 5.4rem;
+    padding: 1.1rem 1.4rem;
+  }
+
+  .count-box .num {
+    font-size: 2.2rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .hero,
+  .quiz-section,
+  .result-section {
+    padding-inline: clamp(2rem, 5vw, 4rem);
+  }
+
+  .hero .sub,
+  .result-desc {
+    max-width: 42rem;
+  }
+
+  .quiz-card,
+  .progress-wrap {
+    max-width: 40rem;
+  }
+
+  .option {
+    padding: 1.05rem 1.2rem;
+  }
+
+  .offer-card {
+    max-width: 31rem;
+  }
+
+  .fine-print {
+    max-width: 31rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero,
+  .quiz-section,
+  .result-section {
+    padding-inline: clamp(3rem, 6vw, 6rem);
+  }
+
+  .hero {
+    gap: 0.25rem;
+  }
+
+  .hero h1 {
+    max-width: 12ch;
+  }
+
+  .hero .sub {
+    max-width: 44rem;
+  }
+
+  .quiz-card,
+  .progress-wrap {
+    max-width: 42rem;
+  }
+
+  .result-desc {
+    max-width: 40rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .hero,
+  .quiz-section,
+  .result-section {
+    padding-inline: min(8vw, 8rem);
+  }
+
+  .offer-card {
+    max-width: 33rem;
+  }
+
+  .fine-print {
+    max-width: 33rem;
+  }
+}
+
+@media (hover: none) {
+  .cta-btn:hover {
+    transform: none;
+    box-shadow: 0 0 0 rgba(255, 46, 146, 0);
+  }
+
+  .option:hover {
+    border-color: rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.03);
+  }
+}
