@@ -513,6 +513,21 @@ h3,
     padding-top: max(1.5rem, env(safe-area-inset-top));
   }
 
+  .hero::before {
+    background:
+      linear-gradient(180deg, rgba(18, 4, 22, 0.34) 0%, rgba(3, 7, 20, 0.58) 100%),
+      radial-gradient(circle at center, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0) 52%),
+      url("/2.png") center center / cover no-repeat;
+    transform: scale(1.01);
+  }
+
+  .hero::after {
+    background:
+      radial-gradient(70% 46% at 50% 28%, rgba(24, 7, 28, 0.06) 0%, rgba(24, 7, 28, 0.22) 68%, rgba(5, 7, 20, 0.48) 100%),
+      linear-gradient(180deg, rgba(255, 46, 146, 0.06) 0%, rgba(0, 229, 216, 0.04) 100%);
+    backdrop-filter: none;
+  }
+
   .hero h1 {
     font-size: clamp(2.1rem, 10vw, 3rem);
   }

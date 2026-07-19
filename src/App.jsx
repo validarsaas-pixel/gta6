@@ -74,6 +74,18 @@ const createInitialAnswers = () => ({
   cetico: 0,
 });
 
+function trackPixelEvent(eventName, parameters) {
+  if (typeof window.fbq === "function") {
+    window.fbq("track", eventName, parameters);
+  }
+}
+
+function trackPixelCustomEvent(eventName, parameters) {
+  if (typeof window.fbq === "function") {
+    window.fbq("trackCustom", eventName, parameters);
+  }
+}
+
 function getCountdownParts() {
   const diff = Math.max(0, TARGET_DATE - Date.now());
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -127,6 +139,7 @@ export default function App() {
   const result = results[resultKey];
 
   const startQuiz = () => {
+    trackPixelCustomEvent("QuizStarted");
     setStage("quiz");
     setCurrentQuestionIndex(0);
     setAnswerTotals(createInitialAnswers());
@@ -148,7 +161,9 @@ export default function App() {
       if (nextQuestionIndex < questions.length) {
         setCurrentQuestionIndex(nextQuestionIndex);
       } else {
-        setResultKey(getTopProfile(nextAnswers));
+        const topProfile = getTopProfile(nextAnswers);
+        setResultKey(topProfile);
+        trackPixelEvent("Lead", { content_name: "QuizCompleted", profile: topProfile });
         setStage("result");
       }
 
@@ -158,6 +173,11 @@ export default function App() {
 
   const goToCheckout = () => {
     const targetLink = hasPlaylistBump ? BUMP_CHECKOUT_LINK : BASE_CHECKOUT_LINK;
+    trackPixelEvent("InitiateCheckout", {
+      content_name: hasPlaylistBump ? "VICE FILES + Miami Nights" : "VICE FILES",
+      currency: "BRL",
+      value: hasPlaylistBump ? 24.8 : 14.9,
+    });
     window.open(targetLink, "_blank", "noopener,noreferrer");
   };
 
@@ -170,15 +190,16 @@ export default function App() {
         <section className="hero" id="hero">
           <span className="eyebrow">CONTAGEM PARA 19.11.2026</span>
           <h1>
-            ENQUANTO
-            <br />
-            TODO MUNDO ESPERA,
-            <br />
-            VOCÊ JÁ SABE.
+            Pule as 100 Horas de Tentativa e Erro: Saiba Tudo Que 99% dos Jogadores Só Irão descobrir
+            semanas Após o Lançamento
           </h1>
           <p className="sub">
-            Trailer novo, pré-venda, mapa, teorias — a temporada mais barulhenta do universo gamer está
-            começando agora. A pergunta é: você vai descobrir tudo com atraso, ou antes de todo mundo?
+            Melhores Armas, Segredos e Mapas: Você Sabe Antes do Lançamento o Que 99% Só Vai Descobrir
+            Depois de assistir 30 vídeos no youtube.
+            <br />
+            <br />
+            Enquanto 99% Assiste Vídeo no YouTube, Você Já Começa Sabendo as Melhores Armas, Segredos,
+            Mapas e Todos os Detalhes.
           </p>
 
           <div className="countdown" aria-label="Contagem regressiva para 19 de novembro de 2026">
