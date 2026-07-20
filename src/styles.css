@@ -177,6 +177,7 @@ h3,
 }
 
 .hero h1 {
+  max-width: 14ch;
   font-size: clamp(2.4rem, 9vw, 5.2rem);
   color: #ffffff;
   filter: drop-shadow(0 10px 32px rgba(0, 0, 0, 0.42));
@@ -245,8 +246,7 @@ h3,
 }
 
 .cta-btn:focus-visible,
-.option:focus-visible,
-.bump:focus-within {
+.option:focus-visible {
   outline: 2px solid var(--cyan);
   outline-offset: 3px;
 }
@@ -254,6 +254,13 @@ h3,
 .cta-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(255, 46, 146, 0.35);
+}
+
+.cta-btn:disabled {
+  cursor: wait;
+  opacity: 0.68;
+  transform: none;
+  box-shadow: none;
 }
 
 .scroll-hint {
@@ -427,48 +434,6 @@ h3,
   color: var(--cyan);
 }
 
-.bump {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.9rem;
-  margin: 1.6rem 0 0.4rem;
-  padding: 1rem;
-  border: 1px dashed rgba(0, 229, 216, 0.4);
-  border-radius: 6px;
-  background: rgba(0, 229, 216, 0.05);
-  cursor: pointer;
-  text-align: left;
-}
-
-.bump input {
-  width: 1.1rem;
-  height: 1.1rem;
-  margin-top: 0.2rem;
-  flex-shrink: 0;
-  accent-color: var(--cyan);
-}
-
-.bump-title {
-  color: var(--paper);
-  font-size: 0.9rem;
-  font-weight: 700;
-}
-
-.bump-desc {
-  margin-top: 0.2rem;
-  color: rgba(243, 239, 228, 0.65);
-  font-size: 0.8rem;
-  line-height: 1.4;
-}
-
-.bump-price {
-  margin-left: auto;
-  color: var(--cyan);
-  white-space: nowrap;
-  font-family: "JetBrains Mono", monospace;
-  font-weight: 600;
-}
-
 .total-line {
   display: flex;
   justify-content: space-between;
@@ -572,17 +537,6 @@ h3,
     font-size: 2.2rem;
   }
 
-  .bump {
-    flex-wrap: wrap;
-    gap: 0.75rem;
-  }
-
-  .bump-price {
-    width: 100%;
-    margin-left: 0;
-    text-align: right;
-  }
-
   .total-line {
     gap: 0.75rem;
     align-items: flex-start;
@@ -639,6 +593,11 @@ h3,
     padding-inline: clamp(2rem, 5vw, 4rem);
   }
 
+  .hero h1 {
+    max-width: min(16ch, 92vw);
+    font-size: clamp(3rem, 7vw, 5rem);
+  }
+
   .hero .sub,
   .result-desc {
     max-width: 42rem;
@@ -670,15 +629,43 @@ h3,
   }
 
   .hero {
-    gap: 0.25rem;
+    gap: 0;
+    padding-top: max(1.5rem, env(safe-area-inset-top));
+    padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
   }
 
   .hero h1 {
-    max-width: 12ch;
+    max-width: min(1040px, 88vw);
+    font-size: clamp(3.1rem, 5.25vw, 5.35rem);
+    line-height: 0.86;
   }
 
   .hero .sub {
-    max-width: 44rem;
+    max-width: 48rem;
+    margin-top: 1rem;
+    font-size: 1rem;
+    line-height: 1.42;
+  }
+
+  .countdown {
+    margin-top: 1.65rem;
+  }
+
+  .count-box {
+    min-width: 4.9rem;
+    padding: 0.85rem 1.1rem;
+  }
+
+  .count-box .num {
+    font-size: 1.85rem;
+  }
+
+  .cta-btn {
+    margin-top: 1.7rem;
+  }
+
+  .scroll-hint {
+    margin-top: 1.2rem;
   }
 
   .quiz-card,
@@ -696,6 +683,11 @@ h3,
   .quiz-section,
   .result-section {
     padding-inline: min(8vw, 8rem);
+  }
+
+  .hero h1 {
+    max-width: min(1120px, 84vw);
+    font-size: clamp(3.6rem, 4.65vw, 5.7rem);
   }
 
   .offer-card {

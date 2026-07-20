@@ -2,10 +2,8 @@ import { useEffect, useState } from "react";
 import { setupPageProtection } from "./security";
 
 const TARGET_DATE = new Date("2026-11-19T00:00:00-03:00").getTime();
-const BASE_PRICE_LABEL = "R$14,90/mês";
-const BUMP_PRICE_LABEL = "R$14,90/mês + R$9,90";
-const BASE_CHECKOUT_LINK = "SEU_LINK_KIWIFY_AQUI";
-const BUMP_CHECKOUT_LINK = "SEU_LINK_KIWIFY_COM_BUMP_AQUI";
+const BASE_PRICE_LABEL = "R$19,90/mês";
+const SYNC_CHECKOUT_LINK = "https://syncpay.link/tqzrAw";
 
 const questions = [
   {
@@ -121,7 +119,7 @@ export default function App() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answerTotals, setAnswerTotals] = useState(createInitialAnswers);
   const [resultKey, setResultKey] = useState("hunter");
-  const [hasPlaylistBump, setHasPlaylistBump] = useState(false);
+  const [checkoutStatus, setCheckoutStatus] = useState("idle");
 
   useEffect(() => {
     const timerId = window.setInterval(() => {
@@ -135,7 +133,6 @@ export default function App() {
 
   const currentQuestion = questions[currentQuestionIndex];
   const progress = stage === "quiz" ? (currentQuestionIndex / questions.length) * 100 : 0;
-  const totalLabel = hasPlaylistBump ? BUMP_PRICE_LABEL : BASE_PRICE_LABEL;
   const result = results[resultKey];
 
   const startQuiz = () => {
@@ -144,6 +141,7 @@ export default function App() {
     setCurrentQuestionIndex(0);
     setAnswerTotals(createInitialAnswers());
     setResultKey("hunter");
+    setCheckoutStatus("idle");
   };
 
   const handleSelectOption = (optionIndex) => {
@@ -172,13 +170,15 @@ export default function App() {
   };
 
   const goToCheckout = () => {
-    const targetLink = hasPlaylistBump ? BUMP_CHECKOUT_LINK : BASE_CHECKOUT_LINK;
+    setCheckoutStatus("loading");
+
     trackPixelEvent("InitiateCheckout", {
-      content_name: hasPlaylistBump ? "VICE FILES + Miami Nights" : "VICE FILES",
+      content_name: "VICE FILES",
       currency: "BRL",
-      value: hasPlaylistBump ? 24.8 : 14.9,
+      value: 19.9,
     });
-    window.open(targetLink, "_blank", "noopener,noreferrer");
+
+    window.location.assign(SYNC_CHECKOUT_LINK);
   };
 
   return (
@@ -261,7 +261,7 @@ export default function App() {
           <div className="offer-card">
             <span className="tag">VAGA LIMITADA</span>
             <div className="price">
-              R$14,90<small>/mês</small>
+              R$19,90<small>/mês</small>
             </div>
             <ul className="benefits">
               <li>Leaks curados e verificados, sem fake news, direto no WhatsApp</li>
@@ -271,39 +271,25 @@ export default function App() {
               <li>Cancele quando quiser, sem fidelidade</li>
             </ul>
 
-            <label className="bump" htmlFor="bump-playlist">
-              <input
-                id="bump-playlist"
-                type="checkbox"
-                checked={hasPlaylistBump}
-                onChange={(event) => setHasPlaylistBump(event.target.checked)}
-              />
-              <div>
-                <div className="bump-title">+ Adicionar Miami Nights</div>
-                <div className="bump-desc">
-                  Playlist curada com o clima de Vice City — synthwave, funk e clássicos 80s/90s, pronta
-                  pro seu Spotify. Pagamento único, é sua pra sempre.
-                </div>
-              </div>
-              <div className="bump-price">+R$9,90</div>
-            </label>
-
             <div className="total-line">
-              <span>Total hoje</span>
-              <span className="total-value">{totalLabel}</span>
+              <span>Total do plano</span>
+              <span className="total-value">{BASE_PRICE_LABEL}</span>
             </div>
 
-            <button className="cta-btn checkout-btn" type="button" onClick={goToCheckout}>
-              Quero entrar no VICE FILES
+            <button
+              className="cta-btn checkout-btn"
+              type="button"
+              onClick={goToCheckout}
+              disabled={checkoutStatus === "loading"}
+            >
+              {checkoutStatus === "loading" ? "Abrindo checkout..." : "Quero entrar no VICE FILES"}
             </button>
           </div>
 
           <p className="fine-print">
             VICE FILES é um clube informativo independente de fãs. Não possui qualquer vínculo, patrocínio
             ou afiliação com a Rockstar Games ou a Take-Two Interactive. Conteúdo baseado em fontes
-            públicas e informações oficiais divulgadas pela desenvolvedora. A playlist Miami Nights é uma
-            seleção musical inspirada na estética da franquia, sem uso de trilha sonora oficial ou não
-            divulgada do jogo.
+            públicas e informações oficiais divulgadas pela desenvolvedora.
           </p>
         </section>
       )}
